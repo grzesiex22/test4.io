@@ -33,7 +33,7 @@ function runMotion(step) {
 function startBouncingMotion(element, boxWidth, boxHeight) {
   let x = Math.max(0, (window.innerWidth - boxWidth) / 2);
   let y = Math.max(0, (window.innerHeight - boxHeight) / 2);
-  const baseSpeed = isMobileMode ? 2.7 : 4;
+  const baseSpeed = isMobileMode ? 4.8 : 4;
   const angle = Math.random() * Math.PI * 2;
   let vx = Math.cos(angle) * baseSpeed;
   let vy = Math.sin(angle) * baseSpeed;
@@ -77,7 +77,7 @@ function startBouncingMotion(element, boxWidth, boxHeight) {
 
 function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
   let x = Math.max(0, (window.innerWidth - boxWidth) / 2);
-  let vx = isMobileMode ? 2.2 : 3;
+  let vx = isMobileMode ? 3.6 : 3;
   let jumpPhase = 0;
 
   runMotion(() => {
@@ -86,10 +86,10 @@ function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
     const maxY = Math.max(0, window.innerHeight - boxHeight);
 
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * (isMobileMode ? 0.36 : 0.4);
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.32 : 0.4);
     const baseY = Math.max(minY, safeBottom - boxHeight);
     const jumpAmplitude = Math.min(
-      isMobileMode ? 48 : 65,
+      isMobileMode ? 56 : 65,
       window.innerHeight * (isMobileMode ? 0.09 : 0.12)
     );
 
@@ -102,7 +102,7 @@ function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
       vx = -Math.abs(vx);
     }
 
-    jumpPhase += isMobileMode ? 0.035 : 0.05;
+    jumpPhase += isMobileMode ? 0.06 : 0.05;
     const jumpOffset = Math.abs(Math.sin(jumpPhase)) * jumpAmplitude;
     const y = Math.max(minY, Math.min(maxY, baseY - jumpOffset));
 
@@ -128,13 +128,13 @@ function startSideHopMotion(element, boxWidth, boxHeight) {
     }
 
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * (isMobileMode ? 0.36 : 0.4);
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.32 : 0.4);
     const baseY = Math.max(minY, safeBottom - boxHeight);
     const jumpAmplitude = Math.min(
       isMobileMode ? 64 : 90,
       window.innerHeight * (isMobileMode ? 0.11 : 0.16)
     );
-    const hopDurationFrames = isMobileMode ? 132 : 96;
+    const hopDurationFrames = isMobileMode ? 86 : 96;
 
     const fromX = direction === 1 ? minX : maxX;
     const toX = direction === 1 ? maxX : minX;
@@ -168,13 +168,13 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
   let subHopIndex = 0;
   let subHopProgress = 0;
   let subHopCount = 2;
-  const subHopDurationFrames = isMobileMode ? 70 : 50;
+  const subHopDurationFrames = isMobileMode ? 40 : 50;
 
   runMotion(() => {
     const viewportMaxX = Math.max(0, window.innerWidth - boxWidth);
     const maxY = Math.max(0, window.innerHeight - boxHeight);
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * (isMobileMode ? 0.33 : 0.37);
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.3 : 0.37);
     const backY = Math.max(minY, safeBottom - boxHeight);
 
     const centerX = Math.max(0, (window.innerWidth - boxWidth) / 2);
@@ -183,9 +183,9 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
 
     const points = [
       { x: centerX, y: backY, scale: isMobileMode ? 0.84 : 0.78 }, // baza/tyl
-      { x: leftX, y: Math.min(maxY, backY + (isMobileMode ? 24 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // lewa
-      { x: centerX, y: Math.min(maxY, backY + (isMobileMode ? 40 : 56)), scale: isMobileMode ? 1.08 : 1.16 }, // srodek blisko
-      { x: rightX, y: Math.min(maxY, backY + (isMobileMode ? 24 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // prawa
+      { x: leftX, y: Math.min(maxY, backY + (isMobileMode ? 20 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // lewa
+      { x: centerX, y: Math.min(maxY, backY + (isMobileMode ? 34 : 56)), scale: isMobileMode ? 1.08 : 1.16 }, // srodek blisko
+      { x: rightX, y: Math.min(maxY, backY + (isMobileMode ? 20 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // prawa
     ];
 
     const from = points[segmentIndex];
