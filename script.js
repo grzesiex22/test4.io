@@ -254,7 +254,7 @@ function prepareLoveScene() {
   odDoContainer.style.position = "fixed";
   odDoContainer.style.margin = "0";
   odDoContainer.style.left = `${Math.max(0, (window.innerWidth - mergedWidth) / 2)}px`;
-  odDoContainer.style.top = `${Math.max(0, (window.innerHeight - mergedHeight) / 2)}px`;
+  odDoContainer.style.top = `${Math.max(0, window.innerHeight * 0.38 - mergedHeight / 2)}px`;
   odDoContainer.style.zIndex = "50";
 
   return {
