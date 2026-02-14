@@ -1,0 +1,333 @@
+﻿html,
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: sans-serif;
+  background: pink;
+}
+
+#main-title {
+  text-align: center;
+}
+
+#main-title.is-centered-love-text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  z-index: 10;
+}
+
+.effect-controls {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  z-index: 80;
+}
+
+.effect-btn {
+  width: 130px;
+  height: 48px;
+  font-size: 16px;
+  border-radius: 14px;
+}
+
+.effect-btn.is-active {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.65), 0 8px 20px rgba(255, 63, 127, 0.35);
+}
+
+.buttons {
+  position: relative;
+  width: 500px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  width: 110px;
+  height: 60px;
+  padding: 1px 2px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-sizing: border-box;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 999px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ff6b9e 0%, #ff3f7f 100%);
+  box-shadow: 0 8px 20px rgba(255, 63, 127, 0.35);
+  transition: transform 0.3s ease, font-size 0.3s ease; /* Remove background-color from transition */
+}
+
+#no {
+  position: absolute;
+  background: linear-gradient(135deg, #9aa3ad 0%, #6d7680 100%);
+  box-shadow: 0 8px 20px rgba(60, 70, 80, 0.28);
+  transition: left 0.15s ease, top 0.15s ease, width 0.3s ease, height 0.3s ease, font-size 0.3s ease;
+}
+
+#yes {
+  transition: left 0.45s ease, transform 0.3s ease, font-size 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+#yes.yes-clicked {
+  background-color: #ff4fa3;
+  color: #fff;
+}
+
+.container-wrapper {
+  position: relative;
+}
+
+.message {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  text-align: center;
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+
+/* Heartbeat animation */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Flash animation */
+@keyframes flash {
+  0%, 100% {
+    background-color: #ff4fa3 !important;
+  }
+  35% {
+    background-color: #ff2f7f !important;
+  }
+  70% {
+    background-color: #ff1f1f !important;
+  }
+}
+
+/* Glow animation */
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(255, 79, 163, 0), 0 0 18px rgba(255, 79, 163, 0.45), 0 0 34px rgba(255, 31, 31, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 0 rgba(255, 79, 163, 0), 0 0 28px rgba(255, 79, 163, 0.8), 0 0 52px rgba(255, 31, 31, 0.5);
+  }
+}
+
+/* Apply animations to the YES button */
+.yes-animate {
+  animation: heartbeat 1s infinite, flash 1s infinite, glow 1s infinite;
+  background-color: #ff4fa3; /* Ensure the starting color matches the animation */
+  color: #fff;
+}
+
+.od-do-container {
+  position: relative;
+  width: 100vw;
+  height: 90px;
+  margin-bottom: 20px;
+  transform-origin: 50% 50%;
+}
+
+.od, .do {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  transition: left 1.2s ease, transform 1.2s ease;
+}
+
+.od {
+  left: 35%;
+  transform: translateX(-50%);
+}
+
+.do {
+  left: 65%;
+  transform: translateX(-50%);
+}
+
+.od img, .do img {
+  width: auto;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+  transition: transform 1s ease; /* Smooth transition for spinning */
+  transform-origin: center center;
+}
+
+/* New animations */
+@keyframes move-random {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(100px, 50px);
+  }
+  50% {
+    transform: translate(-100px, -100px);
+  }
+  75% {
+    transform: translate(-50px, 100px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg) scaleX(1);
+  }
+  25% {
+    transform: rotate(90deg) scaleX(0.18);
+  }
+  50% {
+    transform: rotate(180deg) scaleX(-1);
+  }
+  75% {
+    transform: rotate(270deg) scaleX(-0.18);
+  }
+  100% {
+    transform: rotate(360deg) scaleX(1);
+  }
+}
+
+@keyframes spin-flat {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+
+.spin {
+  animation: spin 3s infinite linear; /* Infinite spinning */
+}
+
+.spin-flat {
+  animation: spin-flat 2.8s infinite linear;
+}
+
+.spin-blink {
+  animation: spin 3s infinite linear, blink 0.5s infinite ease-in-out;
+}
+
+.invite-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 10, 18, 0.45);
+  z-index: 2000;
+  padding: 16px;
+}
+
+.invite-modal-overlay.is-open {
+  display: flex;
+}
+
+.invite-modal {
+  position: relative;
+  width: min(480px, 100%);
+  transform: translateY(90px);
+  border-radius: 20px;
+  padding: 22px 20px 18px;
+  background: linear-gradient(145deg, #fff7fb 0%, #ffe4ef 100%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  color: #351a28;
+}
+
+.invite-modal h2 {
+  margin: 0 34px 8px 0;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.invite-modal-subtitle {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+.invite-modal-meta {
+  font-size: 15px;
+  display: grid;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.invite-modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.invite-modal-actions a {
+  text-decoration: none;
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff6b9e 0%, #ff3f7f 100%);
+  box-shadow: 0 8px 18px rgba(255, 63, 127, 0.35);
+}
+
+.invite-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  background: #ffd4e6;
+  color: #6f2f4f;
+}
