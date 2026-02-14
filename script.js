@@ -178,8 +178,8 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
     const backY = Math.max(minY, safeBottom - boxHeight);
 
     const centerX = Math.max(0, (window.innerWidth - boxWidth) / 2);
-    const leftX = Math.max(0, window.innerWidth * (isMobileMode ? 0.42 : 0.39) - boxWidth / 2);
-    const rightX = Math.min(viewportMaxX, window.innerWidth * (isMobileMode ? 0.58 : 0.61) - boxWidth / 2);
+    const leftX = Math.max(0, window.innerWidth * (isMobileMode ? 0.34 : 0.39) - boxWidth / 2);
+    const rightX = Math.min(viewportMaxX, window.innerWidth * (isMobileMode ? 0.66 : 0.61) - boxWidth / 2);
 
     const points = [
       { x: centerX, y: backY, scale: isMobileMode ? 0.84 : 0.78 }, // baza/tyl
