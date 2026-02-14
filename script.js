@@ -1,4 +1,16 @@
 let motionFrameId = null;
+let isMobileMode = false;
+
+function detectMobileMode() {
+  const viewportMobile = window.matchMedia("(max-width: 900px)").matches;
+  const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+  return viewportMobile || coarsePointer;
+}
+
+function updateMobileModeClass() {
+  isMobileMode = detectMobileMode();
+  document.body.classList.toggle("is-mobile", isMobileMode);
+}
 
 function stopMotion() {
   if (motionFrameId !== null) {
@@ -21,7 +33,7 @@ function runMotion(step) {
 function startBouncingMotion(element, boxWidth, boxHeight) {
   let x = Math.max(0, (window.innerWidth - boxWidth) / 2);
   let y = Math.max(0, (window.innerHeight - boxHeight) / 2);
-  const baseSpeed = 4;
+  const baseSpeed = isMobileMode ? 2.7 : 4;
   const angle = Math.random() * Math.PI * 2;
   let vx = Math.cos(angle) * baseSpeed;
   let vy = Math.sin(angle) * baseSpeed;
@@ -65,7 +77,7 @@ function startBouncingMotion(element, boxWidth, boxHeight) {
 
 function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
   let x = Math.max(0, (window.innerWidth - boxWidth) / 2);
-  let vx = 3;
+  let vx = isMobileMode ? 2.2 : 3;
   let jumpPhase = 0;
 
   runMotion(() => {
@@ -74,9 +86,12 @@ function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
     const maxY = Math.max(0, window.innerHeight - boxHeight);
 
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * 0.4;
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.36 : 0.4);
     const baseY = Math.max(minY, safeBottom - boxHeight);
-    const jumpAmplitude = Math.min(65, window.innerHeight * 0.12);
+    const jumpAmplitude = Math.min(
+      isMobileMode ? 48 : 65,
+      window.innerHeight * (isMobileMode ? 0.09 : 0.12)
+    );
 
     x += vx;
     if (x <= minX) {
@@ -87,7 +102,7 @@ function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
       vx = -Math.abs(vx);
     }
 
-    jumpPhase += 0.05;
+    jumpPhase += isMobileMode ? 0.035 : 0.05;
     const jumpOffset = Math.abs(Math.sin(jumpPhase)) * jumpAmplitude;
     const y = Math.max(minY, Math.min(maxY, baseY - jumpOffset));
 
@@ -103,8 +118,8 @@ function startSideHopMotion(element, boxWidth, boxHeight) {
   runMotion(() => {
     const viewportMaxX = Math.max(0, window.innerWidth - boxWidth);
     const maxY = Math.max(0, window.innerHeight - boxHeight);
-    const regionLeft = window.innerWidth * 0.45;
-    const regionRight = window.innerWidth * 0.55;
+    const regionLeft = window.innerWidth * (isMobileMode ? 0.47 : 0.45);
+    const regionRight = window.innerWidth * (isMobileMode ? 0.53 : 0.55);
     let minX = Math.max(0, regionLeft - boxWidth / 2);
     let maxX = Math.min(viewportMaxX, regionRight - boxWidth / 2);
     if (minX > maxX) {
@@ -113,10 +128,13 @@ function startSideHopMotion(element, boxWidth, boxHeight) {
     }
 
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * 0.4;
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.36 : 0.4);
     const baseY = Math.max(minY, safeBottom - boxHeight);
-    const jumpAmplitude = Math.min(90, window.innerHeight * 0.16);
-    const hopDurationFrames = 96;
+    const jumpAmplitude = Math.min(
+      isMobileMode ? 64 : 90,
+      window.innerHeight * (isMobileMode ? 0.11 : 0.16)
+    );
+    const hopDurationFrames = isMobileMode ? 132 : 96;
 
     const fromX = direction === 1 ? minX : maxX;
     const toX = direction === 1 ? maxX : minX;
@@ -131,7 +149,7 @@ function startSideHopMotion(element, boxWidth, boxHeight) {
     const centerX = (minX + maxX) / 2;
     const halfRange = Math.max(1, (maxX - minX) / 2);
     const sideRatio = (x - centerX) / halfRange; // -1..1
-    const tilt = sideRatio * 16;
+    const tilt = sideRatio * (isMobileMode ? 12 : 16);
 
     element.style.left = `${x}px`;
     element.style.top = `${y}px`;
@@ -150,24 +168,24 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
   let subHopIndex = 0;
   let subHopProgress = 0;
   let subHopCount = 2;
-  const subHopDurationFrames = 50;
+  const subHopDurationFrames = isMobileMode ? 70 : 50;
 
   runMotion(() => {
     const viewportMaxX = Math.max(0, window.innerWidth - boxWidth);
     const maxY = Math.max(0, window.innerHeight - boxHeight);
     const minY = Math.max(0, window.innerHeight * 0.06);
-    const safeBottom = window.innerHeight * 0.37;
+    const safeBottom = window.innerHeight * (isMobileMode ? 0.33 : 0.37);
     const backY = Math.max(minY, safeBottom - boxHeight);
 
     const centerX = Math.max(0, (window.innerWidth - boxWidth) / 2);
-    const leftX = Math.max(0, window.innerWidth * 0.39 - boxWidth / 2);
-    const rightX = Math.min(viewportMaxX, window.innerWidth * 0.61 - boxWidth / 2);
+    const leftX = Math.max(0, window.innerWidth * (isMobileMode ? 0.42 : 0.39) - boxWidth / 2);
+    const rightX = Math.min(viewportMaxX, window.innerWidth * (isMobileMode ? 0.58 : 0.61) - boxWidth / 2);
 
     const points = [
-      { x: centerX, y: backY, scale: 0.78 }, // baza/tyl (bardziej z tylu)
-      { x: leftX, y: Math.min(maxY, backY + 34), scale: 0.96 }, // lewa, blizej
-      { x: centerX, y: Math.min(maxY, backY + 56), scale: 1.16 }, // srodek, blisko (bardziej do przodu)
-      { x: rightX, y: Math.min(maxY, backY + 34), scale: 0.96 }, // prawa, blizej
+      { x: centerX, y: backY, scale: isMobileMode ? 0.84 : 0.78 }, // baza/tyl
+      { x: leftX, y: Math.min(maxY, backY + (isMobileMode ? 24 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // lewa
+      { x: centerX, y: Math.min(maxY, backY + (isMobileMode ? 40 : 56)), scale: isMobileMode ? 1.08 : 1.16 }, // srodek blisko
+      { x: rightX, y: Math.min(maxY, backY + (isMobileMode ? 24 : 34)), scale: isMobileMode ? 0.94 : 0.96 }, // prawa
     ];
 
     const from = points[segmentIndex];
@@ -186,13 +204,16 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
     const x = subFromX + (subToX - subFromX) * smoothT;
     const baseY = subFromY + (subToY - subFromY) * smoothT;
     const scale = subFromScale + (subToScale - subFromScale) * smoothT;
-    const jumpArc = Math.sin(Math.PI * t) * Math.min(32, window.innerHeight * 0.055);
+    const jumpArc = Math.sin(Math.PI * t) * Math.min(
+      isMobileMode ? 22 : 32,
+      window.innerHeight * (isMobileMode ? 0.04 : 0.055)
+    );
     const y = Math.max(minY, Math.min(maxY, baseY - jumpArc));
 
     const horizontalSpan = Math.max(1, rightX - leftX);
     const sideRatio = (x - centerX) / (horizontalSpan / 2);
     const sideRatioClamped = Math.max(-1, Math.min(1, sideRatio));
-    const tilt = sideRatioClamped * 14;
+    const tilt = sideRatioClamped * (isMobileMode ? 10 : 14);
 
     element.style.left = `${x}px`;
     element.style.top = `${y}px`;
@@ -254,7 +275,7 @@ function prepareLoveScene() {
   odDoContainer.style.position = "fixed";
   odDoContainer.style.margin = "0";
   odDoContainer.style.left = `${Math.max(0, (window.innerWidth - mergedWidth) / 2)}px`;
-  odDoContainer.style.top = `${Math.max(0, window.innerHeight * 0.38 - mergedHeight / 2)}px`;
+  odDoContainer.style.top = `${Math.max(0, window.innerHeight * (isMobileMode ? 0.32 : 0.38) - mergedHeight / 2)}px`;
   odDoContainer.style.zIndex = "50";
 
   return {
@@ -274,7 +295,8 @@ function resetVisualEffectClasses(container) {
 
 function centerSceneContainer(scene, topRatio = 0.5) {
   scene.container.style.left = `${Math.max(0, (window.innerWidth - scene.width) / 2)}px`;
-  scene.container.style.top = `${Math.max(0, window.innerHeight * topRatio - scene.height / 2)}px`;
+  const resolvedTopRatio = isMobileMode ? Math.max(0.22, topRatio - 0.06) : topRatio;
+  scene.container.style.top = `${Math.max(0, window.innerHeight * resolvedTopRatio - scene.height / 2)}px`;
 }
 
 function setActiveEffectButton(activeId) {
@@ -291,6 +313,8 @@ function setActiveEffectButton(activeId) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  updateMobileModeClass();
+
   const scene = prepareLoveScene();
   if (!scene) return;
 
@@ -342,4 +366,8 @@ document.addEventListener("DOMContentLoaded", () => {
       setActiveEffectButton("effect-5-btn");
     });
   }
+
+  window.addEventListener("resize", () => {
+    updateMobileModeClass();
+  });
 });

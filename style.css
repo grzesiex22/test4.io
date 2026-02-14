@@ -27,6 +27,13 @@ body {
   z-index: 10;
 }
 
+body.is-mobile #main-title.is-centered-love-text {
+  width: min(92vw, 420px);
+  font-size: 30px;
+  line-height: 1.15;
+  text-align: center;
+}
+
 .effect-controls {
   position: fixed;
   left: 50%;
@@ -44,6 +51,20 @@ body {
   height: 48px;
   font-size: 16px;
   border-radius: 14px;
+}
+
+body.is-mobile .effect-controls {
+  width: 94vw;
+  bottom: 10px;
+  gap: 8px;
+}
+
+body.is-mobile .effect-btn {
+  width: 30vw;
+  min-width: 96px;
+  max-width: 128px;
+  height: 42px;
+  font-size: 14px;
 }
 
 .effect-btn.is-active {
@@ -188,6 +209,15 @@ button {
   display: block;
   transition: transform 1s ease; /* Smooth transition for spinning */
   transform-origin: center center;
+}
+
+body.is-mobile .od-do-container {
+  height: 72px;
+}
+
+body.is-mobile .od img,
+body.is-mobile .do img {
+  height: 64px;
 }
 
 /* New animations */
