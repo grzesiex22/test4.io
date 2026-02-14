@@ -102,7 +102,7 @@ function startLeftRightJumpMotion(element, boxWidth, boxHeight) {
       vx = -Math.abs(vx);
     }
 
-    jumpPhase += isMobileMode ? 0.06 : 0.05;
+    jumpPhase += isMobileMode ? 0.07 : 0.05;
     const jumpOffset = Math.abs(Math.sin(jumpPhase)) * jumpAmplitude;
     const y = Math.max(minY, Math.min(maxY, baseY - jumpOffset));
 
@@ -134,7 +134,7 @@ function startSideHopMotion(element, boxWidth, boxHeight) {
       isMobileMode ? 64 : 90,
       window.innerHeight * (isMobileMode ? 0.11 : 0.16)
     );
-    const hopDurationFrames = isMobileMode ? 86 : 96;
+    const hopDurationFrames = isMobileMode ? 40 : 96;
 
     const fromX = direction === 1 ? minX : maxX;
     const toX = direction === 1 ? maxX : minX;
@@ -168,7 +168,7 @@ function startCircleHopMotion(element, boxWidth, boxHeight) {
   let subHopIndex = 0;
   let subHopProgress = 0;
   let subHopCount = 2;
-  const subHopDurationFrames = isMobileMode ? 40 : 50;
+  const subHopDurationFrames = isMobileMode ? 20 : 50;
 
   runMotion(() => {
     const viewportMaxX = Math.max(0, window.innerWidth - boxWidth);
@@ -246,7 +246,7 @@ function prepareLoveScene() {
   if (!odDoContainer || !odBlock || !doBlock || !odImage || !doImage) return null;
 
   if (mainTitle) {
-    mainTitle.textContent = "Już jesteś moją walentynką 💖";
+    mainTitle.textContent = "Jesteś moją walentynką!!! 💖";
     mainTitle.classList.add("is-centered-love-text");
   }
 
